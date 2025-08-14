@@ -1,29 +1,60 @@
 import { useState } from "react";
-import API from "../api";
 
 export default function Contact() {
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [form, setForm] = useState({ name: "", email: "", message: "" });
 
-  const handleContact = async (e) => {
-    e.preventDefault();
-    try {
-      await API.post("/contact", { email, message });
-      alert("Message sent!");
-      setEmail("");
-      setMessage("");
-    } catch (err) {
-      alert("Failed to send message");
+  const handleSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await fetch("http://localhost:5000/api/contact", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(form),
+    });
+    const data = await response.json();
+    if (data.success) {
+      alert("Message sent successfully!");
+      setForm({ name: "", email: "", message: "" });
+    } else {
+      alert(data.error || "Failed to send message");
     }
-  };
+  } catch (err) {
+    alert("Error sending message");
+  }
+};
+
+
 
   return (
-    <div className="p-4 max-w-md mx-auto">
-      <h1 className="text-2xl font-bold mb-4">Contact Us</h1>
-      <form onSubmit={handleContact} className="flex flex-col gap-2">
-        <input type="email" placeholder="Your Email" className="border p-2" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <textarea placeholder="Your Message" className="border p-2" value={message} onChange={(e) => setMessage(e.target.value)}></textarea>
-        <button type="submit" className="bg-blue-700 text-white p-2">Send</button>
+    <div className="max-w-2xl mx-auto mt-10 p-6 border rounded shadow">
+      <h2 className="text-3xl font-bold mb-4 text-center">Contact Us</h2>
+      <form onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Your Name"
+          className="w-full p-2 border rounded"
+          value={form.name}
+          onChange={(e) => setForm({ ...form, name: e.target.value })}
+          required
+        />
+        <input
+          type="email"
+          placeholder="Your Email"
+          className="w-full p-2 border rounded"
+          value={form.email}
+          onChange={(e) => setForm({ ...form, email: e.target.value })}
+          required
+        />
+        <textarea
+          placeholder="Your Message"
+          className="w-full p-2 border rounded h-32"
+          value={form.message}
+          onChange={(e) => setForm({ ...form, message: e.target.value })}
+          required
+        />
+        <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">
+          Send Message
+        </button>
       </form>
     </div>
   );

@@ -1,27 +1,51 @@
 import { useState } from "react";
-import API from "../api";
+import { useNavigate } from "react-router-dom";
 
 export default function AddAd() {
-  const [title, setTitle] = useState("");
-  const [description, setDescription] = useState("");
-  const [images, setImages] = useState([]);
+  const [form, setForm] = useState({ title: "", description: "", price: "", category: "", location: "" });
+  const [image, setImage] = useState(null);
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append("title", title);
-    formData.append("description", description);
-    for (let i = 0; i < images.length; i++) formData.append("images", images[i]);
-    await API.post("/ads", formData);
-    alert("Ad created!");
+    Object.keys(form).forEach((key) => formData.append(key, form[key]));
+    if (image) formData.append("image", image);
+
+    try {
+      const res = await fetch("http://localhost:5000/api/ads", {
+        method: "POST",
+        body: formData,
+      });
+      const data = await res.json();
+      if (data.success) {
+        alert("Ad posted successfully!");
+        navigate("/");
+      } else {
+        alert("Failed to post ad");
+      }
+    } catch (err) {
+      alert("Error posting ad");
+    }
   };
 
   return (
-    <form className="p-4" onSubmit={handleSubmit}>
-      <input type="text" placeholder="Title" className="border p-2 w-full" onChange={(e) => setTitle(e.target.value)} />
-      <textarea placeholder="Description" className="border p-2 w-full my-2" onChange={(e) => setDescription(e.target.value)}></textarea>
-      <input type="file" multiple onChange={(e) => setImages(e.target.files)} />
-      <button type="submit" className="bg-blue-700 text-white p-2 mt-2">Post Ad</button>
-    </form>
+    <div className="max-w-lg mx-auto mt-10 p-6 border rounded shadow">
+      <h2 className="text-2xl font-bold mb-4">Post a New Ad</h2>
+      <form onSubmit={handleSubmit} className="space-y-3">
+        <input type="text" placeholder="Title" className="w-full p-2 border rounded"
+          value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} required />
+        <textarea placeholder="Description" className="w-full p-2 border rounded"
+          value={form.description} onChange={(e) => setForm({ ...form, description: e.target.value })} required />
+        <input type="number" placeholder="Price" className="w-full p-2 border rounded"
+          value={form.price} onChange={(e) => setForm({ ...form, price: e.target.value })} required />
+        <input type="text" placeholder="Category" className="w-full p-2 border rounded"
+          value={form.category} onChange={(e) => setForm({ ...form, category: e.target.value })} required />
+        <input type="text" placeholder="Location" className="w-full p-2 border rounded"
+          value={form.location} onChange={(e) => setForm({ ...form, location: e.target.value })} required />
+        <input type="file" accept="image/*" onChange={(e) => setImage(e.target.files[0])} />
+        <button className="bg-blue-600 text-white px-4 py-2 rounded w-full">Post Ad</button>
+      </form>
+    </div>
   );
 }
