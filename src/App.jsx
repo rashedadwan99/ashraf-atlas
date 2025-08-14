@@ -1,4 +1,4 @@
-/*import { Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import Home from "./pages/Home";
@@ -30,12 +30,12 @@ function App() {
 }
 
 export default App;
-*/
-export default function App() {
-  return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>React is working!</h1>
-      <p>If you see this, the frontend is rendering correctly.</p>
-    </div>
-  );
-}
+
+// export default function App() {
+//   return (
+//     <div style={{ textAlign: "center", marginTop: "50px" }}>
+//       <h1>React is working!</h1>
+//       <p>If you see this, the frontend is rendering correctly.</p>
+//     </div>
+//   );
+// }
