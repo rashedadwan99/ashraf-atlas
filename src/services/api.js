@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:5000/api", // change this when deploying
+  baseURL: "https://atlasacacia.com/api", // change this when deploying
 });
 
 // Attach token automatically if logged in

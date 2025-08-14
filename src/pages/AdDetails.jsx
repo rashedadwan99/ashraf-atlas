@@ -6,7 +6,7 @@ export default function AdDetails() {
   const [ad, setAd] = useState(null);
 
   useEffect(() => {
-    fetch(`http://localhost:5000/api/ads/${id}`)
+    fetch(`https://atlasacacia.com/api/ads/${id}`)
       .then((res) => res.json())
       .then((data) => setAd(data));
   }, [id]);
@@ -17,7 +17,7 @@ export default function AdDetails() {
     <div className="max-w-3xl mx-auto mt-10 p-6 border rounded shadow">
       {ad.image && (
         <img
-          src={`http://localhost:5000/uploads/${ad.image}`}
+          src={`https://atlasacacia.com/uploads/${ad.image}`}
           alt={ad.title}
           className="w-full h-64 object-cover rounded mb-4"
         />

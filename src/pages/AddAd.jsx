@@ -13,7 +13,7 @@ export default function AddAd() {
     if (image) formData.append("image", image);
 
     try {
-      const res = await fetch("http://localhost:5000/api/ads", {
+      const res = await fetch("https://atlasacacia.com/api/ads", {
         method: "POST",
         body: formData,
       });

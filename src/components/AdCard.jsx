@@ -4,7 +4,7 @@ export default function AdCard({ ad }) {
   return (
     <div className="border rounded shadow hover:shadow-lg transition p-3">
       <img
-        src={`http://localhost:5000/uploads/${ad.image || "placeholder.jpg"}`}
+        src={`https://atlasacacia.com/uploads/${ad.image || "placeholder.jpg"}`}
         alt={ad.title}
         className="w-full h-40 object-cover rounded mb-2"
       />

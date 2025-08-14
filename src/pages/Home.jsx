@@ -5,7 +5,7 @@ export default function Home() {
   const [ads, setAds] = useState([]);
 
   useEffect(() => {
-    fetch("http://localhost:5000/api/ads")
+    fetch("https://atlasacacia.com/api/ads")
       .then((res) => res.json())
       .then((data) => setAds(data));
   }, []);
@@ -20,7 +20,7 @@ export default function Home() {
         >
           {ad.image && (
             <img
-              src={`http://localhost:5000/uploads/${ad.image}`}
+              src={`https://atlasacacia.com/uploads/${ad.image}`}
               alt={ad.title}
               className="w-full h-40 object-cover rounded"
             />

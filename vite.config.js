@@ -9,6 +9,5 @@ export default defineConfig({
       usePolling: true, // Optional: fixes issues on some systems/editors (e.g., WSL or network drives)
     },
     port: 5173,          // Default port, you can change it
-    open: true,          // Opens browser on server start
   },
 })
